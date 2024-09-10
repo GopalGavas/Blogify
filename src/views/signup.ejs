@@ -12,22 +12,30 @@
     <%- include('./partials/nav') %>
 
         <div class="form-container">
-            <form action="/user/signup" method="post">
-                <label for="fullName">Name</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Your Full Name" required>
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+            <% if (locals.error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= locals.error %>
+                </div>
+                <% } %>
 
 
-                <label for="coverImage">Cover Image (Optinal)</label>
-                <input type="file" id="coverImage" name="coverImage">
+                    <form action="/user/signup" method="post" enctype="multipart/form-data">
+                        <label for="fullName">Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Your Full Name" required>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+
+
+                        <label for="coverImage">Cover Image (Optinal)</label>
+                        <input type="file" id="coverImage" name="coverImage">
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
         </div>
 
         <%- include('./partials/script') %>

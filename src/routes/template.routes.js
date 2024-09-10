@@ -1,9 +1,13 @@
 import { Router } from "express";
+import { optionalVerifyJWT } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.route("/home").get((req, res) => {
-  res.render("home");
+router.route("/home").get(optionalVerifyJWT, (req, res) => {
+  res.render("home", {
+    message: "Request Processed",
+    user: req.user || null,
+  });
 });
 
 router.route("/user/signup").get((req, res) => {

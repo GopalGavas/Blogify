@@ -29,18 +29,20 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //  validate fields
   if ([fullName, email, password].some((fields) => fields.trim() === "")) {
-    throw new ApiError(400, "All fields are required");
+    return res
+      .status(400)
+      .render("signup", { error: "Email and Password are required" });
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    throw new ApiError(400, "Invalid email address");
+    return res.status(400).render("signup", { error: "Invalid email address" });
   }
 
   // Check for existing User
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    throw new ApiError(400, "User already exists");
+    return res.status(400).render("signup", { error: "User already exists" });
   }
 
   // file uploads
@@ -52,6 +54,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
+  //  create user
   const user = await User.create({
     fullName,
     email,
@@ -60,35 +63,37 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(500, "Something went wrong while creating the user");
+    return res.status(500).render("signup", {
+      error: "something went wrong while creating the user",
+    });
   }
 
   const userCreated = await User.findById(user._id)
     .select("-password -refreshToken")
     .lean();
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, userCreated, "User registered successfully"));
+  return res.status(200).redirect("/user/login");
 });
 
 const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new ApiError("400", "Email and Password is  required");
+    return res
+      .status(400)
+      .render("login", { error: "Email and Password are required" });
   }
 
   const user = await User.findOne({ email }).select("-refreshToken");
 
   if (!user) {
-    throw new ApiError(404, "user  not found");
+    return res.status(404).render("login", { error: "User not found" });
   }
 
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid password");
+    return res.status(404).render("login", { error: "Invalid password" });
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
@@ -110,13 +115,7 @@ const userLogin = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        { user: user, accessToken, refreshToken },
-        "User logged in successfully"
-      )
-    );
+    .redirect("/home");
 });
 
 const userLogout = asyncHandler(async (req, res) => {
@@ -141,7 +140,7 @@ const userLogout = asyncHandler(async (req, res) => {
     .status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, {}, "User loggoed out successfully"));
+    .redirect("/user/login");
 });
 
 export { registerUser, userLogin, userLogout };
