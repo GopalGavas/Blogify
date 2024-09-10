@@ -14,9 +14,11 @@ app.set("views", path.resolve("./src/views"));
 
 // Routes
 import userRouter from "./routes/user.routes.js";
+import blogRouter from "./routes/blog.routes.js";
 import templateRouter from "./routes/template.routes.js";
 
 app.use("/user", userRouter);
+app.use("/blog", blogRouter);
 app.use("/", templateRouter);
 
 export { app };

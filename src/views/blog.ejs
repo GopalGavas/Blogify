@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Blog Page</title>
+        <link rel="stylesheet" href="/styles/blogPage.css">
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="container">
+            <h1>
+                <%= blog.title %>
+            </h1>
+
+            <!-- Centering the image -->
+            <div class="image-container">
+                <img src="<%= blog.coverImage %>" alt="Blog Cover Image">
+            </div>
+
+            <pre><%= blog.body %></pre>
+        </div>
+
+        <%- include('./partials/script') %>
+</body>
+
+</html>

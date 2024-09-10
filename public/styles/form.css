@@ -24,12 +24,35 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"],
-input[type="file"] {
+input[type="file"],
+textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+textarea {
+    height: 150px;
+    resize: vertical; /* Allows vertical resizing only */
+    background-color: #f9f9f9;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(38, 143, 255, 0.5);
+}
+
+textarea::placeholder {
+    color: #aaa;
+    font-style: italic;
 }
 
 button {

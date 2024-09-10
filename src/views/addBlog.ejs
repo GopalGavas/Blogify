@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Create Blog</title>
+        <link rel="stylesheet" href="/styles/form.css">
+
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="form-container">
+
+            <% if (locals.error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= locals.error %>
+                </div>
+                <% } %>
+
+
+                    <form action="/blog" method="post" enctype="multipart/form-data">
+
+                        <label for="coverImage">Cover Image (Optinal)</label>
+                        <input type="file" id="coverImage" name="coverImage">
+
+
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" required>
+
+                        <label for="body">Body</label>
+                        <textarea id="body" name="body" required></textarea>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+        </div>
+
+        <%- include('./partials/script') %>
+</body>
+
+</html>
