@@ -15,10 +15,12 @@ app.set("views", path.resolve("./src/views"));
 // Routes
 import userRouter from "./routes/user.routes.js";
 import blogRouter from "./routes/blog.routes.js";
+import commentRouter from "./routes/comment.routes.js";
 import templateRouter from "./routes/template.routes.js";
 
 app.use("/user", userRouter);
 app.use("/blog", blogRouter);
+app.use("/comment", commentRouter);
 app.use("/", templateRouter);
 
 export { app };

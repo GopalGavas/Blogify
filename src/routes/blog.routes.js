@@ -15,6 +15,6 @@ router
   .route("/")
   .post(optionalVerifyJWT, upload.single("coverImage"), createBlog);
 
-router.route("/:blogId").get(verifyjwt, getBlogById);
+router.route("/:blogId").get(optionalVerifyJWT, getBlogById);
 
 export default router;

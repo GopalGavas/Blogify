@@ -1,5 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Blog } from "../models/blog.model.js";
+import { Comment } from "../models/comment.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const createBlog = asyncHandler(async (req, res) => {
@@ -43,13 +44,15 @@ const getBlogById = asyncHandler(async (req, res) => {
     return res.status(400).render("home", { error: "Invalid Id" });
   }
 
-  const blog = await Blog.findById(blogId);
+  const blog = await Blog.findById(blogId).populate("createdBy");
 
   if (!blog) {
     return res.status(404).render("home", { error: "blog not found" });
   }
 
-  return res.status(200).render("blog", { user: req.user, blog });
+  const comments = await Comment.find({ blog: blogId }).populate("createdBy");
+
+  return res.status(200).render("blog", { user: req.user, blog, comments });
 });
 
 export { createBlog, getBlogById };
