@@ -1,7 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { User } from "../models/user.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  deleteFromCloudinary,
+  uploadOnCloudinary,
+} from "../utils/cloudinary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -142,4 +145,51 @@ const userLogout = asyncHandler(async (req, res) => {
     .redirect("/user/login");
 });
 
-export { registerUser, userLogin, userLogout };
+const updateUserCoverImage = asyncHandler(async (req, res) => {
+  const coverImageLocalPath = req.file?.path;
+
+  if (!coverImageLocalPath) {
+    return res.status(400).render("updateCoverImage", {
+      error: "Can't find Image Path",
+      user: req.user,
+    });
+  }
+
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+
+  if (!coverImage) {
+    return res.status(500).render("updateCoverImage", {
+      error: "Error while uploading file on cloudinary",
+      user: req.user,
+    });
+  }
+
+  const user = await User.findById(req.user).select("coverImage");
+  const oldCoverImage = user?.coverImage;
+
+  await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        coverImage: coverImage?.url,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (oldCoverImage) {
+    const publicId = oldCoverImage.split("/").pop().split(".")[0];
+
+    console.log(publicId);
+    await deleteFromCloudinary(publicId);
+  }
+
+  return res.status(200).render("updateCoverImage", {
+    success: "Cover Image updated successfully!",
+    user: { coverImage: coverImage.url },
+  });
+});
+
+export { registerUser, userLogin, userLogout, updateUserCoverImage };

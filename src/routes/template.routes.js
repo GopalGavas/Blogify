@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { optionalVerifyJWT } from "../middleware/auth.middleware.js";
+import { optionalVerifyJWT, verifyjwt } from "../middleware/auth.middleware.js";
 import { Blog } from "../models/blog.model.js";
 
 const router = Router();
@@ -12,14 +12,6 @@ router.route("/home").get(optionalVerifyJWT, async (req, res) => {
     user: req.user || null,
     blogs: allBlogs,
   });
-});
-
-router.route("/user/signup").get((req, res) => {
-  return res.render("signup");
-});
-
-router.route("/user/login").get((req, res) => {
-  return res.render("login");
 });
 
 export default router;

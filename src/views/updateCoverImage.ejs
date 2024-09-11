@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Update Cover Image</title>
+        <style>
+            .container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #eaeaea;
+                border-radius: 8px;
+                background-color: #f9f9f9;
+            }
+
+            h2 {
+                text-align: center;
+            }
+
+            .current-image img {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                display: block;
+                margin: 10px auto;
+                border-radius: 50%;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .alert {
+                margin-bottom: 20px;
+            }
+
+            .success {
+                color: green;
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="container mt-5">
+            <h2>Update Your Cover Image</h2>
+
+            <!-- Error message display if any -->
+            <% if (locals.error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= locals.error %>
+                </div>
+                <% } %>
+
+                    <!-- Success message display if any -->
+                    <% if (locals.success) { %>
+                        <div class="success">
+                            <%= locals.success %>
+                        </div>
+                        <% } %>
+
+                            <!-- Form for updating cover image -->
+                            <form action="/user/update-coverImage" method="post" enctype="multipart/form-data"
+                                class="update-cover-image-form">
+                                <div class="form-group">
+                                    <label for="coverImage">Select New Cover Image</label>
+                                    <input type="file" name="coverImage" id="coverImage" class="form-control" required>
+                                </div>
+
+                                <!-- Show current cover image -->
+                                <div class="current-image mt-4">
+                                    <p>Current Cover Image:</p>
+                                    <img src="<%= user?.coverImage || '/path/to/default/image.jpg' %>"
+                                        alt="Current Cover Image" class="current-cover-image">
+
+                                </div>
+
+                                <button type="submit" class="btn btn-primary mt-4">Update Image</button>
+                            </form>
+        </div>
+
+        <%- include('./partials/script') %>
+</body>
+
+</html>
