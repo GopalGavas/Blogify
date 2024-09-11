@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { optionalVerifyJWT, verifyjwt } from "../middleware/auth.middleware.js";
+import { optionalVerifyJWT } from "../middleware/auth.middleware.js";
 import { createBlog, getBlogById } from "../controllers/blog.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 
