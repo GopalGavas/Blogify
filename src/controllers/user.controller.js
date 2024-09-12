@@ -192,4 +192,38 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   });
 });
 
-export { registerUser, userLogin, userLogout, updateUserCoverImage };
+const updatePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  if (newPassword !== confirmPassword) {
+    return res
+      .status(400)
+      .render("updatePassword", { error: "Password does not match" });
+  }
+
+  const user = await User.findById(req.user?._id);
+  console.log("User:", user);
+
+  const isOldPasswordCorrect = await user.isPasswordCorrect(currentPassword);
+
+  if (!isOldPasswordCorrect) {
+    return res
+      .status(400)
+      .render("updatePassword", { error: "Invalid old Password" });
+  }
+
+  user.password = newPassword;
+
+  await user.save({ validateBeforeSave: false });
+
+  req.flash("success", "Password updated successfully. Please login again");
+
+  return res.status(200).redirect("/user/login");
+});
+
+export {
+  registerUser,
+  userLogin,
+  userLogout,
+  updateUserCoverImage,
+  updatePassword,
+};

@@ -1,8 +1,27 @@
 import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
+import session from "express-session";
+import flash from "connect-flash";
 
 const app = express();
+
+app.use(
+  session({
+    secret: "yourSecretKey",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Set 'secure: true' in production when using HTTPS
+  })
+);
+
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 app.use(express.json({}));
 app.use(express.urlencoded({ extended: false }));

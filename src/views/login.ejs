@@ -9,26 +9,25 @@
 
 <body>
     <%- include('./partials/nav') %>
-
         <div class="form-container">
-
-            <% if (locals.error) { %>
+            <% if (locals.error && locals.error.length> 0) { %>
                 <div class="alert alert-danger" role="alert">
                     <%= locals.error %>
                 </div>
                 <% } %>
-
-                    <form action="/user/login" method="post">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
-
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
+                    <% if (locals.success && locals.success.length> 0) { %>
+                        <div class="alert alert-success" role="alert">
+                            <%= locals.success %>
+                        </div>
+                        <% } %>
+                            <form action="/user/login" method="post">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" required>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </form>
         </div>
-
         <%- include('./partials/script') %>
 </body>
 

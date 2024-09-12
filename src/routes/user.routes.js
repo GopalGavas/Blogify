@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   registerUser,
+  updatePassword,
   updateUserCoverImage,
   userLogin,
   userLogout,
@@ -32,6 +33,12 @@ router
 
 router.route("/update-coverImage").get(verifyjwt, (req, res) => {
   return res.render("updateCoverImage", { user: req.user }); // EJS template for update-coverImage
+});
+
+// Update Password
+router.route("/update-password").post(verifyjwt, updatePassword);
+router.route("/update-password").get(verifyjwt, (req, res) => {
+  return res.render("updatePassword", { user: req.user });
 });
 
 export default router;
