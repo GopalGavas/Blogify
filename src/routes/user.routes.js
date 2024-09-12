@@ -14,13 +14,13 @@ const router = Router();
 // SignUp routes
 router.route("/signup").post(upload.single("coverImage"), registerUser);
 router.route("/signup").get((req, res) => {
-  return res.render("signup"); // EJS template for singup
+  return res.render("signup", { currentPath: "/user/signup" }); // EJS template for singup
 });
 
 // Login routes
 router.route("/login").post(userLogin);
 router.route("/login").get((req, res) => {
-  return res.render("login"); // EJS template for login
+  return res.render("login", { currentPath: "/user/login" }); // EJS template for login
 });
 
 // Logout routes
@@ -32,13 +32,19 @@ router
   .post(verifyjwt, upload.single("coverImage"), updateUserCoverImage);
 
 router.route("/update-coverImage").get(verifyjwt, (req, res) => {
-  return res.render("updateCoverImage", { user: req.user }); // EJS template for update-coverImage
+  return res.render("updateCoverImage", {
+    user: req.user,
+    currentPath: "/user/update-coverImage",
+  }); // EJS template for update-coverImage
 });
 
 // Update Password
 router.route("/update-password").post(verifyjwt, updatePassword);
 router.route("/update-password").get(verifyjwt, (req, res) => {
-  return res.render("updatePassword", { user: req.user });
+  return res.render("updatePassword", {
+    user: req.user,
+    currentPath: "user/update-password",
+  });
 });
 
 export default router;

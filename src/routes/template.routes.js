@@ -11,6 +11,7 @@ router.route("/home").get(optionalVerifyJWT, async (req, res) => {
     message: "Request Processed",
     user: req.user || null,
     blogs: allBlogs,
+    currentPath: req.path,
   });
 });
 

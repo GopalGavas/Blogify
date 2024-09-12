@@ -8,6 +8,7 @@ const router = Router();
 router.route("/add-new").get(optionalVerifyJWT, (req, res) => {
   return res.render("addBlog", {
     user: req.user,
+    currentPath: "/blog/add-new",
   });
 });
 

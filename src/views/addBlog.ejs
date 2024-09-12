@@ -13,7 +13,7 @@
 
         <div class="form-container">
 
-            <% if (locals.error) { %>
+            <% if (locals.error && locals.error.length> 0) { %>
                 <div class="alert alert-danger" role="alert">
                     <%= locals.error %>
                 </div>

@@ -55,7 +55,7 @@
             <h2>Update Your Cover Image</h2>
 
             <!-- Error message display if any -->
-            <% if (locals.error) { %>
+            <% if (locals.error && locals.error.length> 0) { %>
                 <div class="alert alert-danger" role="alert">
                     <%= locals.error %>
                 </div>
