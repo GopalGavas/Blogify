@@ -52,7 +52,9 @@ const getBlogById = asyncHandler(async (req, res) => {
 
   const comments = await Comment.find({ blog: blogId }).populate("createdBy");
 
-  return res.status(200).render("blog", { user: req.user, blog, comments });
+  return res
+    .status(200)
+    .render("blog", { user: req.user, blog, comments, currentPath: req.path });
 });
 
 export { createBlog, getBlogById };

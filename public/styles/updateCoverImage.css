@@ -1,0 +1,40 @@
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    text-align: center;
+}
+
+.current-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+    border-radius: 50%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.btn {
+    width: 100%;
+}
+
+.alert {
+    margin-bottom: 20px;
+}
+
+.success {
+    color: green;
+    text-align: center;
+    margin-top: 20px;
+}
