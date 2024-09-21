@@ -20,8 +20,7 @@ router.route("/signup").get((req, res) => {
 // Login routes
 router.route("/login").post(userLogin);
 router.route("/login").get((req, res) => {
-  console.log("Current Path: ", req.path);
-  return res.render("login", { currentPath: req.path }); // EJS template for login
+  return res.render("login", { currentPath: "/user/login" }); // EJS template for login
 });
 
 // Logout routes

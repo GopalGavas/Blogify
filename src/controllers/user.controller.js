@@ -89,13 +89,18 @@ const userLogin = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email }).select("-refreshToken");
 
   if (!user) {
-    return res.status(404).render("login", { error: "User not found" });
+    return res
+      .status(404)
+      .render("login", { error: "User not found", currentPath: "/user/login" });
   }
 
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    return res.status(404).render("login", { error: "Invalid password" });
+    return res.status(404).render("login", {
+      error: "Invalid password",
+      currentPath: "/user/login",
+    });
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
@@ -201,7 +206,7 @@ const updatePassword = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findById(req.user?._id);
-  console.log("User:", user);
+  // console.log("User:", user);
 
   const isOldPasswordCorrect = await user.isPasswordCorrect(currentPassword);
 
